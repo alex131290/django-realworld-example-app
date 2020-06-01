@@ -22,3 +22,60 @@ If all went well then your command line prompt should now start with `(productio
 If your command line prompt does not start with `(productionready)` at this point, try running `pyenv activate productionready` or `cd ../productionready-django-api`. 
 
 If pyenv is still not working, visit us in the Thinkster Slack channel so we can help you out.
+
+#### Setting up the Database
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+#### Running the DJango App
+```
+python manage.py runserver 0.0.0.0:8000
+```
+#### Adding an admin user
+However, there aren’t any users for our Django DRF application.
+In order to create admin user, we need to access our container to run the createuser command then enter the promoted credentials:
+```bash
+python manage.py createsuperuser
+```
+### Option 2: Use Docker
+If you don't have yet a running docker installation, install first docker with
+```bash
+sudo apt-get install docker.io
+```
+Fetch the repository from docker
+```bash
+docker pull realworldio/django-drf
+```
+#### Running the DJango App
+Create a folder to mount the source code of the app
+```bash
+mkdir ~/django_drf_project
+```
+
+Run the DJango DRF app via Docker container
+
+Before running it, make sure you're running the postgres container
+
+```bash
+docker run -d -it --rm -p 5432:5432 --name pg1 -e POSTGRES_PASSWORD=password -e POSTGRES_USER=root -e POSTGRES_DB=db-name postgres:11.1
+```
+
+
+```bash
+docker run -d -e DB_NAME='db-name' -e DB_USER='root' -e DB_PASS='password'  -p 8000:8000 --name django_drf django_drf
+```
+
+#### Adding an admin user
+However, there aren’t any users for our Django DRF application.
+In order to create admin user, we need to access our container to run the createuser command:
+
+```bash
+docker exec -it django_drf bash
+```
+
+To add an admin user, you need to run the following code in your container then enter the promoted credentials:
+```bash
+python manage.py createsuperuser
+```
+Afterwards, exit the Docker container running the `exit` command.
