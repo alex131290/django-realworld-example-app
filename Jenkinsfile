@@ -1,7 +1,7 @@
 pipeline {
     agent {label 'ec2-base-slave'}
     environment {
-        SERVICE_NAME = "backend"
+        SERVICE_NAME = "realworld-backend"
         AWS_REGION = "us-east-1"
         AWS_ACCOUNT = "561306761274"
     }
