@@ -4,8 +4,8 @@ ENV DRF_DEBUG_MODE False
 ENV DRF_ALLOWED_HOSTS *
 WORKDIR /app
 COPY requirements.txt .
-RUN mkdir databases
-RUN echo '/databases' >> .gitignore
+# RUN mkdir databases
+# RUN echo '/databases' >> .gitignore
 RUN pip install -r requirements.txt
 COPY . .
 EXPOSE 8000
